@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Watson Assistant (formerly Conversation) Sample Application [![Build Status](https://travis-ci.org/watson-developer-cloud/assistant-simple.svg?branch=master)](http://travis-ci.org/watson-developer-cloud/assistant-simple) [![codecov.io](https://codecov.io/github/watson-developer-cloud/assistant-simple/coverage.svg?branch=master)](https://codecov.io/github/watson-developer-cloud/assistant-simple?branch=master)
 
 This Node.js app demonstrates the Watson Assistant service in a simple chat interface simulating a cognitive car dashboard.
@@ -220,3 +221,6 @@ Find more open source projects on the
 [npm_link]: (https://www.npmjs.com/)
 [sign_up]: bluemix.net/registration
 # GeneralChatBotWebsite
+=======
+# Watson Assistant Sample Application 
+>>>>>>> f5a691635a58bdafe5129f7300bac60e109c0756
