@@ -1,15 +1,15 @@
 ---
 declared-services:
-  my-watson-assistant-service:
+  VehicleAssistant:
     label: conversation
     plan: free
 applications:
-- name: watson-assistant-simple
+- name: VehicleAssistant
   command: npm start
   path: .
   memory: 256M
   instances: 1
   services:
-  - my-watson-assistant-service
+  - VehicleAssistant
   env:
     NPM_CONFIG_PRODUCTION: false

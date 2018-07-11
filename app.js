@@ -19,12 +19,29 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
+const mongoose = require('mongoose');
+const MongoClient = require('mongodb').MongoClient;
+
 
 var app = express();
 
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
+
+// Database Connection
+var url = "mongodb+srv://chatbot:chatbot@chatbotdemo-r0fev.mongodb.net/test?retryWrites=true";
+
+// MongoClient.connect(url, function(err, db) {
+//   if (err) throw err;
+//   console.log("Database created!");
+//   db.close();
+// });
+
+mongoose.connect(url);
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error'));
+db.once('open', () => {});
 
 // Create the service wrapper
 

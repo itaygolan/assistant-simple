@@ -72,12 +72,29 @@ var PayloadPanel = (function() {
         payloadElement.removeChild(payloadElement.lastChild);
       }
       // Add new payload element
-      payloadElement.appendChild(payloadDiv);
+      //payloadElement.appendChild(payloadDiv);
       // Set the horizontal rule to show (if request and response payloads both exist)
       // or to hide (otherwise)
       var payloadInitial = document.querySelector(settings.selectors.payloadInitial);
       if (Api.getRequestPayload() || Api.getResponsePayload()) {
         payloadInitial.classList.add('hide');
+      }
+
+      let displayImage = Api.getResponsePayload();
+      let exists = false;
+      
+      if (displayImage.entities.length > 0) {
+        exists = true;
+        displayImage = displayImage.entities[0].value;
+      }
+      
+      if (displayImage == "burgers") {
+        console.log(displayImage);
+        const body = document.getElementsByTagName('body')[0];
+        let script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'js/googleMaps.js';
+        document.body.appendChild(script);        
       }
     }
   }
