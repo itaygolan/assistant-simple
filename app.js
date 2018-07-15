@@ -19,8 +19,8 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
-const mongoose = require('mongoose');
-const MongoClient = require('mongodb').MongoClient;
+//const mongoose = require('mongoose');
+//const MongoClient = require('mongodb').MongoClient;
 
 
 var app = express();
@@ -38,10 +38,10 @@ var url = "mongodb+srv://chatbot:chatbot@chatbotdemo-r0fev.mongodb.net/test?retr
 //   db.close();
 // });
 
-mongoose.connect(url);
-const db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error'));
-db.once('open', () => {});
+// mongoose.connect(url);
+// const db = mongoose.connection;
+// db.on('error', console.error.bind(console, 'connection error'));
+// db.once('open', () => {});
 
 // Create the service wrapper
 

@@ -82,18 +82,28 @@ var PayloadPanel = (function() {
 
       let displayImage = Api.getResponsePayload();
       let exists = false;
+      let displayImage2 = displayImage;
+
+      console.log(displayImage)
       
       if (displayImage.entities.length > 0) {
         exists = true;
         displayImage = displayImage.entities[0].value;
       }
+
       
       if (displayImage == "burgers") {
-        console.log(displayImage);
         const body = document.getElementsByTagName('body')[0];
         let script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'js/googleMaps.js';
+        script.src = 'maps/burgers.js';
+        document.body.appendChild(script);        
+      }
+
+      if (displayImage == "pasta") {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'maps/burgers.js';
         document.body.appendChild(script);        
       }
     }

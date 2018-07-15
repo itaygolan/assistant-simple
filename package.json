@@ -4,7 +4,7 @@
   "version": "0.1.1",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon --exec node server.js",
+    "start": "nodemon --exec npx babel-node -- ./server.js",
     "test-integration": "casperjs test ./test/integration/test.*.js",
     "test-integration-runner": "NODE_ENV=test node casper-runner.js",
     "test": "npm run lint && npm run test-unit && npm run test-integration-runner",
@@ -13,26 +13,34 @@
     "autofix": "eslint --fix .",
     "codecov": "npm run test && (codecov || true)"
   },
+  "babel": {
+    "presets": [
+      "latest"
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/watson-developer-cloud/assistant-simple.git"
   },
   "license": "Apache-2.0",
   "dependencies": {
+    "babel-plugin-transform-es2015-modules-commonjs": "^6.26.2",
     "body-parser": "^1.18.2",
     "dotenv": "^5.0.1",
     "express": "^4.16.1",
     "mongodb": "^3.1.1",
     "mongoose": "^5.2.2",
-    "nodemon": "^1.18.0",
     "watson-developer-cloud": "^3.5.1"
   },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
     "babel-eslint": "^6.0.4",
+    "babel-preset-latest": "^6.24.1",
     "casperjs": "^1.1.4",
     "codecov": "^3.0.2",
     "eslint": "^2.8.0",
     "jest": "^22.4.3",
+    "nodemon": "^1.18.1",
     "phantomjs-prebuilt": "^2.1.15",
     "supertest": "^3.1.0"
   },

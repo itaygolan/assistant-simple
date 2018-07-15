@@ -1,39 +1,5 @@
 
-var map, infoWindow, service;
-
-map = new google.maps.Map(document.getElementById('picture-holder'), {
-    zoom: 13
-    });
-infoWindow = new google.maps.InfoWindow;
-
-if (navigator.geolocation) {
-    var pos;
-    navigator.geolocation.getCurrentPosition(function(position) {
-        pos = {
-            lat: position.coords.latitude,
-            lng: position.coords.longitude
-        };
-
-        service = new google.maps.places.PlacesService(map);
-        service.nearbySearch({
-            keyword: 'american',
-            location: pos,
-            radius: 5000,
-            type: ['restaurant']
-        }, callback);
-
-        map.setCenter(pos);
-    }, function() {
-        handleLocationError(true, infoWindow, map.getCenter());
-    });
-    } 
-else {
-    // Browser doesn't support Geolocation
-    handleLocationError(false, infoWindow, map.getCenter());
-}
-
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
+function handleLocationError (browserHasGeolocation, infoWindow, pos, map) {
     infoWindow.setPosition(pos);
     infoWindow.setContent(browserHasGeolocation ?
                           'Error: The Geolocation service failed.' :
@@ -41,15 +7,7 @@ function handleLocationError(browserHasGeolocation, infoWindow, pos) {
     infoWindow.open(map);
 }
 
-function callback(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        results.forEach((place) => {
-            createMarker(place);
-        })
-    }
-}
-
-const createMarker = (place) => {
+function createMarker (place, map, service, infoWindow) {
     const placeLocation = place.geometry.location;
     const marker = new google.maps.Marker({
         map : map,
@@ -79,3 +37,5 @@ const createMarker = (place) => {
         }
     })
 }
+
+export { handleLocationError, createMarker };
