@@ -19,8 +19,8 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
-//const mongoose = require('mongoose');
-//const MongoClient = require('mongodb').MongoClient;
+import mydb from './public/database/index';
+
 
 
 var app = express();
@@ -29,19 +29,18 @@ var app = express();
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
 
-// Database Connection
-var url = "mongodb+srv://chatbot:chatbot@chatbotdemo-r0fev.mongodb.net/test?retryWrites=true";
-
-// MongoClient.connect(url, function(err, db) {
-//   if (err) throw err;
-//   console.log("Database created!");
-//   db.close();
+// Database
+// mydb.search('library', 'books', {q:'author:dickens'}, function(er, result) {
+//   if (er) {
+//     throw er;
+//   }
+ 
+//   console.log('Showing %d out of a total %d books by Dickens', result.rows.length, result.total_rows);
+//   // for (var i = 0; i < result.rows.length; i++) {
+//   //   console.log('Document id: %s', result.rows[i].id);
+//   // }
 // });
 
-// mongoose.connect(url);
-// const db = mongoose.connection;
-// db.on('error', console.error.bind(console, 'connection error'));
-// db.once('open', () => {});
 
 // Create the service wrapper
 
