@@ -1,5 +1,3 @@
-//import {handleLocationError, createMarker} from './helperFunctions';
-
 var map, infoWindow, service;
 
 function initMap() {
@@ -33,54 +31,6 @@ function initMap() {
         // Browser doesn't support Geolocation
         handleLocationError(false, infoWindow, map.getCenter());
     }
-}
-
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                          'Error: The Geolocation service failed.' :
-                          'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}
-
-function callback(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        results.forEach((place) => {
-            createMarker(place, map, service, infoWindow);
-        })
-    }
-}
-
-const createMarker = (place) => {
-    const placeLocation = place.geometry.location;
-    const marker = new google.maps.Marker({
-        map : map,
-        position: placeLocation
-    })
-    
-    const request = { reference: place.reference };
-    
-    service.getDetails(request, (details) => {
-
-        if (!details) {
-            google.maps.event.addListener(marker, 'click', () => {
-                infoWindow.setContent('<span style="padding: 0px; text-align:left" align="left"><h5>' + place.name + '&nbsp; &nbsp; ' + place.rating);
-                infoWindow.setPosition(placeLocation);
-                infoWindow.open(map);
-            })
-        }
-
-        else {     
-            google.maps.event.addListener(marker, 'click', () => {
-                infoWindow.setContent('<span style="padding: 0px; text-align:left" align="left"><h5>' + place.name + '&nbsp; &nbsp; ' + place.rating 
-                                    + '</h5><p>' + details.formatted_address + '<br />' + details.formatted_phone_number + '<br />' +  
-                                    '<a  target="_blank" href=' + details.website + '>' + place.name + '</a></p>' ) ;
-                infoWindow.setPosition(placeLocation);
-                infoWindow.open(map);
-            })
-        }
-    })
 }
 
 initMap();

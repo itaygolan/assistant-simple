@@ -7,6 +7,14 @@ function handleLocationError (browserHasGeolocation, infoWindow, pos, map) {
     infoWindow.open(map);
 }
 
+function callback(results, status) {
+    if (status === google.maps.places.PlacesServiceStatus.OK) {
+        results.forEach((place) => {
+            createMarker(place, map, service, infoWindow);
+        })
+    }
+}
+
 function createMarker (place, map, service, infoWindow) {
     const placeLocation = place.geometry.location;
     const marker = new google.maps.Marker({
@@ -38,4 +46,16 @@ function createMarker (place, map, service, infoWindow) {
     })
 }
 
-export { handleLocationError, createMarker };
+function calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB) {
+    directionsService.route({
+      origin: pointA,
+      destination: pointB,
+      travelMode: google.maps.TravelMode.DRIVING
+    }, function(response, status) {
+      if (status == google.maps.DirectionsStatus.OK) {
+        directionsDisplay.setDirections(response);
+      } else {
+        window.alert('Directions request failed due to ' + status);
+      }
+    });
+  }

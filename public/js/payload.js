@@ -3,6 +3,7 @@
 /* eslint no-unused-vars: "off" */
 /* global Api: true, Common: true, PayloadPanel: true*/
 
+
 var PayloadPanel = (function() {
   var settings = {
     selectors: {
@@ -81,31 +82,62 @@ var PayloadPanel = (function() {
       }
 
       let displayImage = Api.getResponsePayload();
-      let exists = false;
-      let displayImage2 = displayImage;
-
-      console.log(displayImage)
       
       if (displayImage.entities.length > 0) {
-        exists = true;
         displayImage = displayImage.entities[0].value;
       }
 
-      
-      if (displayImage == "burgers") {
-        const body = document.getElementsByTagName('body')[0];
-        let script = document.createElement('script');
-        script.type = 'text/javascript';
-        script.src = 'maps/burgers.js';
-        document.body.appendChild(script);        
-      }
+      console.log(displayImage)
 
-      if (displayImage == "pasta") {
+      if (displayImage == "burgers") {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'maps/burgers.js';
+        const element = document.getElementById('picture-holder');
+        while (element.firstChild) {
+          element.removeChild(element.firstChild);
+        }
         document.body.appendChild(script);        
       }
+      
+      if (displayImage == "pasta") {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'maps/italian.js';
+        const element = document.getElementById('picture-holder');
+        while (element.firstChild) {
+          element.removeChild(element.firstChild);
+        }
+        document.body.appendChild(script);        
+      }
+
+      if (displayImage == "first") {
+        const script = document.createElement('script');
+        script.type = 'text/javascript';
+        script.src = 'maps/directions.js';
+        const element = document.getElementById('picture-holder');
+        while (element.firstChild) {
+          element.removeChild(element.firstChild);
+        }
+        document.body.appendChild(script);        
+      }
+
+      fetch('./data').then((res) => {
+        res.json().then((data) => {
+          data.forEach(obj=> {
+            if (displayImage === obj.name) {
+              const image = document.createElement('IMG');
+              image.src = obj.link;
+              image.alt = obj.name;
+              const element = document.getElementById('picture-holder');
+              while (element.firstChild) {
+                element.removeChild(element.firstChild);
+              }
+              element.appendChild(image);
+            }
+          })
+        });
+      });
     }
   }
 

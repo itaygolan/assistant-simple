@@ -1,6 +1,7 @@
 //import {handleLocationError, createMarker} from './helperFunctions';
 
 var map, infoWindow, service, allPlaces;
+var locations = [];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('picture-holder'), {
@@ -16,15 +17,41 @@ function initMap() {
                 lng: position.coords.longitude
             };
 
+            const pointA = new google.maps.LatLng(pos.lat, pos.lng);
+            console.log(pointA);
+
             service = new google.maps.places.PlacesService(map);
             service.nearbySearch({
                 keyword: 'american',
                 location: pos,
                 radius: 5000,
                 type: ['restaurant']
-            }, callback);
+            }, getOne);
+
 
             map.setCenter(pos);
+
+            // Instantiate a directions service.
+            directionsService = new google.maps.DirectionsService,
+            directionsDisplay = new google.maps.DirectionsRenderer({
+                map: map
+            }),
+                markerA = new google.maps.Marker({
+                    position: pointA,
+                    title: "point A",
+                    label: "A",
+                    map: map
+            }),
+                markerB = new google.maps.Marker({
+                    position: pointB,
+                    title: "point B",
+                    label: "B",
+                    map: map
+            });
+
+        // get route from A to B
+        calculateAndDisplayRoute(directionsService, directionsDisplay, pointA, pointB);
+
         }, function() {
             handleLocationError(true, infoWindow, map.getCenter(), map);
         });
@@ -35,52 +62,13 @@ function initMap() {
     }
 }
 
-
-function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-    infoWindow.setPosition(pos);
-    infoWindow.setContent(browserHasGeolocation ?
-                          'Error: The Geolocation service failed.' :
-                          'Error: Your browser doesn\'t support geolocation.');
-    infoWindow.open(map);
-}
-
-function callback(results, status) {
+function getOne(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
-        results.forEach((place) => {
-            console.log(place);
-        })
+        const place = results[0];
+        const placeLocation = place.geometry.location;
+        const pointB = new google.maps.LatLng(placeLocation.lat(), placeLocation.lng());
+        console.log(pointB);
     }
-}
-
-const createMarker = (place) => {
-    const placeLocation = place.geometry.location;
-    const marker = new google.maps.Marker({
-        map : map,
-        position: placeLocation
-    })
-    
-    const request = { reference: place.reference };
-    
-    service.getDetails(request, (details) => {
-
-        if (!details) {
-            google.maps.event.addListener(marker, 'click', () => {
-                infoWindow.setContent('<span style="padding: 0px; text-align:left" align="left"><h5>' + place.name + '&nbsp; &nbsp; ' + place.rating);
-                infoWindow.setPosition(placeLocation);
-                infoWindow.open(map);
-            })
-        }
-
-        else {     
-            google.maps.event.addListener(marker, 'click', () => {
-                infoWindow.setContent('<span style="padding: 0px; text-align:left" align="left"><h5>' + place.name + '&nbsp; &nbsp; ' + place.rating 
-                                    + '</h5><p>' + details.formatted_address + '<br />' + details.formatted_phone_number + '<br />' +  
-                                    '<a  target="_blank" href=' + details.website + '>' + place.name + '</a></p>' ) ;
-                infoWindow.setPosition(placeLocation);
-                infoWindow.open(map);
-            })
-        }
-    })
 }
 
 initMap();

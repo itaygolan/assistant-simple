@@ -19,27 +19,42 @@
 var express = require('express'); // app server
 var bodyParser = require('body-parser'); // parser for post requests
 var AssistantV1 = require('watson-developer-cloud/assistant/v1'); // watson sdk
-import mydb from './public/database/index';
+const Cloudant = require('@cloudant/cloudant'); // cloudant db
 
 
 
-var app = express();
+const app = express();
 
 // Bootstrap application settings
 app.use(express.static('./public')); // load UI from public folder
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-// Database
-// mydb.search('library', 'books', {q:'author:dickens'}, function(er, result) {
-//   if (er) {
-//     throw er;
-//   }
+// Bootstrap database
+const username = process.env.cloudant_username;
+const password = process.env.cloudant_password;
+const cloudant = Cloudant({ account: username, password: password }); // Database Connection
+
+cloudant.db.list((err, dbs) => {
+  console.log(`All my databases: ${dbs.join(',')}`);
+})
+
+const mydb = cloudant.db.use('images');
+app.get('/data', (req, res) => {
+  let data = []
  
-//   console.log('Showing %d out of a total %d books by Dickens', result.rows.length, result.total_rows);
-//   // for (var i = 0; i < result.rows.length; i++) {
-//   //   console.log('Document id: %s', result.rows[i].id);
-//   // }
-// });
+  mydb.get('_design/all_images/_view/all', (err, d) => {
+    d.rows.forEach((e) => {
+      //console.log(e.value.name);
+      data.push({"name":e.value.name, "link": e.value.link});
+    })
+    res.send(data);
+  });
+
+
+})
+
+
 
 
 // Create the service wrapper
@@ -118,4 +133,4 @@ function updateMessage(input, response) {
   return response;
 }
 
-module.exports = app;
+module.exports = {app, mydb};
