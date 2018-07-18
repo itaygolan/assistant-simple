@@ -1,7 +1,6 @@
 //import {handleLocationError, createMarker} from './helperFunctions';
 
-var map, infoWindow, service, allPlaces;
-var locations = [];
+var map, infoWindow;
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('picture-holder'), {
@@ -18,15 +17,16 @@ function initMap() {
             };
 
             const pointA = new google.maps.LatLng(pos.lat, pos.lng);
-            console.log(pointA);
+            let bCoords;
 
-            service = new google.maps.places.PlacesService(map);
-            service.nearbySearch({
-                keyword: 'american',
-                location: pos,
-                radius: 5000,
-                type: ['restaurant']
-            }, getOne);
+            fetch('/mapdata').then((res) => {
+                res.text().then((data) => {
+                    console.log(data);
+                    bCoords = data;
+                })
+            });
+
+            const pointB = new google.maps.LatLng(bCoords.lat, bCoords.lng);
 
 
             map.setCenter(pos);
@@ -62,13 +62,5 @@ function initMap() {
     }
 }
 
-function getOne(results, status) {
-    if (status === google.maps.places.PlacesServiceStatus.OK) {
-        const place = results[0];
-        const placeLocation = place.geometry.location;
-        const pointB = new google.maps.LatLng(placeLocation.lat(), placeLocation.lng());
-        console.log(pointB);
-    }
-}
 
 initMap();

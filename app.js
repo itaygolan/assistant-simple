@@ -50,9 +50,20 @@ app.get('/data', (req, res) => {
     })
     res.send(data);
   });
-
-
 })
+
+app.get('/mapdata', (req, res) => {
+  app.get('mapdata');
+  res.json(req.body);
+  console.log(req.body);
+})
+
+app.post('/mapdata', (req, res) => {
+  app.set('mapdata', req.body);
+})
+
+
+
 
 
 

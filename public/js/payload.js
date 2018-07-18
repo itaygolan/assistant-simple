@@ -89,7 +89,7 @@ var PayloadPanel = (function() {
 
       console.log(displayImage)
 
-      if (displayImage == "burgers") {
+      if (displayImage == "burgers" && counter == 0) {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'maps/burgers.js';
@@ -97,7 +97,8 @@ var PayloadPanel = (function() {
         while (element.firstChild) {
           element.removeChild(element.firstChild);
         }
-        document.body.appendChild(script);        
+        document.body.appendChild(script);  
+        counter = counter + 1;      
       }
       
       if (displayImage == "pasta") {

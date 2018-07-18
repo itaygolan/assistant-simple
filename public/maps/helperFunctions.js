@@ -9,6 +9,16 @@ function handleLocationError (browserHasGeolocation, infoWindow, pos, map) {
 
 function callback(results, status) {
     if (status === google.maps.places.PlacesServiceStatus.OK) {
+        const place = results[0];
+        const placeLocation = place.geometry.location;
+        fetch('/mapdata', {
+            method: 'POST',
+            body: JSON.stringify(placeLocation),
+            headers: {"Content-Type": "application/json"}
+        }).then(response => {
+            console.log("no")
+            response.json();
+        })
         results.forEach((place) => {
             createMarker(place, map, service, infoWindow);
         })
