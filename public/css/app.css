@@ -457,8 +457,7 @@ html{
   src:url('../fonts/ibm-glyphs.eot?1b8643') format('eot'),
   url('../fonts/ibm-glyphs.eot?1b8643#iefix') format('embedded-opentype'),
   url('../fonts/ibm-glyphs.ttf?1b8643') format('truetype'),
-  url('../fonts/ibm-glyphs.woff?1b8643') format('woff'),
-  url('../fonts/ibm-glyphs.svg?1b8643#ibm-glyph') format('svg');
+  url('../fonts/ibm-glyphs.woff?1b8643') format('woff');
   font-weight: normal;
   font-style: normal;
 }

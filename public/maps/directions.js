@@ -10,43 +10,39 @@ function initMap() {
 
     if (navigator.geolocation) {
         var pos;
-        navigator.geolocation.getCurrentPosition(function(position) {
+        navigator.geolocation.getCurrentPosition(async (position) => {
             pos = {
                 lat: position.coords.latitude,
                 lng: position.coords.longitude
             };
 
             const pointA = new google.maps.LatLng(pos.lat, pos.lng);
-            let bCoords;
 
-            fetch('/mapdata').then((res) => {
-                res.text().then((data) => {
-                    console.log(data);
-                    bCoords = data;
-                })
+            service = new google.maps.places.PlacesService(map);
+            const getServices = () => new Promise((resolve, reject) => {
+                service.nearbySearch({
+                    keyword: 'american',
+                    location: pos,
+                    radius: 5000,
+                    type: ['restaurant']
+                }, (results, status) => {
+                    if (status === google.maps.places.PlacesServiceStatus.OK) {
+                        resolve(results);
+                    } else {
+                        reject(results);
+                    }
+                });
             });
 
-            const pointB = new google.maps.LatLng(bCoords.lat, bCoords.lng);
-
-
+            const results = await getServices();
+            const bCoords = results[0].geometry.location
+            const pointB = new google.maps.LatLng(bCoords.lat(), bCoords.lng());
             map.setCenter(pos);
 
             // Instantiate a directions service.
             directionsService = new google.maps.DirectionsService,
             directionsDisplay = new google.maps.DirectionsRenderer({
                 map: map
-            }),
-                markerA = new google.maps.Marker({
-                    position: pointA,
-                    title: "point A",
-                    label: "A",
-                    map: map
-            }),
-                markerB = new google.maps.Marker({
-                    position: pointB,
-                    title: "point B",
-                    label: "B",
-                    map: map
             });
 
         // get route from A to B

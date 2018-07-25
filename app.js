@@ -52,22 +52,6 @@ app.get('/data', (req, res) => {
   });
 })
 
-app.get('/mapdata', (req, res) => {
-  app.get('mapdata');
-  res.json(req.body);
-  console.log(req.body);
-})
-
-app.post('/mapdata', (req, res) => {
-  app.set('mapdata', req.body);
-})
-
-
-
-
-
-
-
 // Create the service wrapper
 
 var assistant;

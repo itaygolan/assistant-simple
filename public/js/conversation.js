@@ -3,6 +3,12 @@
 /* eslint no-unused-vars: "off" */
 /* global Api: true, Common: true*/
 
+// import { Api } from './api';
+// import { Common } from './common';
+
+// require('../css/app.css');
+
+// export 
 var ConversationPanel = (function() {
   var settings = {
     selectors: {
@@ -226,3 +232,5 @@ var ConversationPanel = (function() {
     }
   }
 }());
+
+//module.exports = ConversationPanel;

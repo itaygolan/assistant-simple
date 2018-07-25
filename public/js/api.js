@@ -1,5 +1,6 @@
 // The Api module is designed to handle all interactions with the server
 
+//export 
 var Api = (function() {
   var requestPayload;
   var responsePayload;
@@ -59,3 +60,5 @@ var Api = (function() {
     http.send(params);
   }
 }());
+
+//module.exports = Api;

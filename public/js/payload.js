@@ -3,7 +3,13 @@
 /* eslint no-unused-vars: "off" */
 /* global Api: true, Common: true, PayloadPanel: true*/
 
+// import { Api } from './api';
+// import { Common } from './common';
 
+// require('../css/app.css');
+
+
+// export 
 var PayloadPanel = (function() {
   var settings = {
     selectors: {
@@ -89,7 +95,8 @@ var PayloadPanel = (function() {
 
       console.log(displayImage)
 
-      if (displayImage == "burgers" && counter == 0) {
+
+      if (displayImage == "burgers") {
         const script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = 'maps/burgers.js';
@@ -97,14 +104,13 @@ var PayloadPanel = (function() {
         while (element.firstChild) {
           element.removeChild(element.firstChild);
         }
-        document.body.appendChild(script);  
-        counter = counter + 1;      
+        document.body.appendChild(script);     
       }
       
       if (displayImage == "pasta") {
         const script = document.createElement('script');
         script.type = 'text/javascript';
-        script.src = 'maps/italian.js';
+        script.src = 'maps/pasta.js';
         const element = document.getElementById('picture-holder');
         while (element.firstChild) {
           element.removeChild(element.firstChild);
@@ -230,3 +236,5 @@ var PayloadPanel = (function() {
     return lineString;
   }
 }());
+
+//module.exports = PayloadPanel;
