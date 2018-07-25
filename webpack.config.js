@@ -2,7 +2,7 @@ const webpack = require('webpack');
 const path = require('path');
 
 let config = {
-    entry: {app: './public/js/global.js'},
+    entry: {app: './public/js/index.js'},
     output: {
         path: path.resolve(__dirname, './public/output'),
         filename: 'output.js'

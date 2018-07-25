@@ -2,7 +2,7 @@
 // to hold functions that are used in multiple other modules
 /* eslint no-unused-vars: "off" */
 
-//export 
+export 
 var Common = (function() {
   // Publicly accessible methods defined
   return {
