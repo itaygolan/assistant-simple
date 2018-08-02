@@ -5,7 +5,6 @@
 
 import { Api } from './api';
 import { Common } from './common';
-
 require('../css/app.css');
 
 
@@ -69,6 +68,7 @@ var PayloadPanel = (function() {
   // Display a request or response payload that has just been sent/received
   function displayPayload(typeValue) {
     var isRequest = checkRequestType(typeValue);
+    
     if (isRequest !== null) {
       // Create new payload DOM element
       var payloadDiv = buildPayloadDomElement(isRequest);
@@ -93,8 +93,7 @@ var PayloadPanel = (function() {
         displayImage = displayImage.entities[0].value;
       }
 
-      console.log(displayImage)
-
+      //console.log(displayImage)
 
       if (displayImage == "burgers") {
         const script = document.createElement('script');

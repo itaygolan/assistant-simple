@@ -5,6 +5,7 @@
 
 import { Api } from './api';
 import { Common } from './common';
+import { PayloadPanel } from './payload';
 
 require('../css/app.css');
 
@@ -26,6 +27,7 @@ var ConversationPanel = (function() {
   // Publicly accessible methods defined
   return {
     init: init,
+    init2: init2,
     inputKeyDown: inputKeyDown
   };
 
@@ -35,6 +37,12 @@ var ConversationPanel = (function() {
     Api.sendRequest( '', null );
     setupInputBox();
   }
+
+  function init2(message) {
+    Api.sendRequest(message, null );
+    setupInputBox();
+  }
+
   // Set up callbacks on payload setters in Api module
   // This causes the displayMessage function to be called when messages are sent / received
   function chatUpdateSetup() {
@@ -50,6 +58,9 @@ var ConversationPanel = (function() {
       displayMessage(JSON.parse(newPayloadStr), settings.authorTypes.watson);
     };
   }
+
+
+
 
 // Set up the input box to underline text as it is typed
   // This is done by creating a hidden dummy version of the input box that
@@ -125,7 +136,32 @@ var ConversationPanel = (function() {
       || (newPayload.output && newPayload.output.text);
     if (isUser !== null && textExists) {
       // Create new message DOM element
-      var messageDivs = buildMessageDomElements(newPayload, isUser);
+
+      console.log(newPayload);
+      let response_type;
+      let check = false;
+      if (!isUser) {
+        if (newPayload.output.generic.length > 0) {
+          response_type = newPayload.output.generic[0].response_type;
+          check = true;
+        } else {
+          response_type = newPayload;
+        }
+      } else {
+        response_type = newPayload;
+      }
+
+      let messageDivs;
+      //console.log(response_type);
+
+      if (check && response_type === 'option') {
+        messageDivs = buildOptionElements(newPayload);
+      } else if (check && response_type === 'image') {
+          messageDivs = buildImageElements(newPayload);
+      } else {
+        messageDivs = buildMessageDomElements(newPayload, isUser);
+      }
+
       var chatBoxElement = document.querySelector(settings.selectors.chatBox);
       var previousLatest = chatBoxElement.querySelectorAll((isUser
               ? settings.selectors.fromUser : settings.selectors.fromWatson)
@@ -192,6 +228,90 @@ var ConversationPanel = (function() {
         messageArray.push(Common.buildDomElement(messageJson));
       }
     });
+
+    return messageArray;
+  }
+
+  function buildOptionElements(newPayload) {
+    var messageArray = [];
+
+    console.log(newPayload);
+
+    const options = newPayload.output.generic[0].options;
+    const title = newPayload.output.generic[0].title;
+
+    options.forEach((option, i) => {
+      console.log(option);
+      if (option) {
+        var messageJson = {
+          // <div class='segments'>
+          'tagName': 'div',
+          'classNames': ['segments'],
+          'children': [{
+            // <div class='from-user/from-watson latest'>
+            'tagName': 'div',
+            'classNames': ['option', 'latest', ((messageArray.length === 0) ? 'top' : 'sub')],
+            'children': [{
+              // <div class='message-inner'>
+              'tagName': 'div',
+              'classNames': ['message-inner'],
+              'children': [{
+                'tagName': 'div',
+                'children': [{
+                  'tagName': 'li',
+                  'classNames':['option-highlight'],
+                  'text': option.label,
+                  'value': option.value.input.text || ""
+                }]
+              }]
+            }]
+          }]
+        };
+        messageArray.push(Common.buildOptionElement(messageJson));
+      }
+    });
+
+    return messageArray;
+  }
+
+  function buildImageElements(newPayload) {
+    var messageArray = [];
+
+    const image = newPayload.output.generic[0];
+
+    const msg = {
+      'tagName': 'img',
+      'classNames':['image-message'],
+      'source': image.source,
+      'title': image.title || ""
+    }
+
+    var messageJson = {
+      // <div class='segments'>
+      'tagName': 'div',
+      'classNames': ['segments'],
+      'children': [{
+        // <div class='from-user/from-watson latest'>
+        'tagName': 'div',
+        'classNames': ['option', 'latest', ((messageArray.length === 0) ? 'top' : 'sub')],
+        'children': [{
+          // <div class='message-inner'>
+          'tagName': 'div',
+          'classNames': ['message-inner'],
+          'children': [{
+            'tagName': 'div',
+            'children': [{
+              'tagName': 'img',
+              'classNames':['image-message'],
+              'source': image.source,
+              'title': image.title || ""
+            }]
+          }]
+        }]
+      }]
+    };
+    
+    messageArray.push(Common.buildImageElement(msg));
 
     return messageArray;
   }

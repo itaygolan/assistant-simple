@@ -221,6 +221,54 @@ div {
   line-height: 1.3125rem;
 }
 
+
+
+
+
+
+.option .message-inner {
+  position: relative;
+  border-radius: 1.5625rem;
+  font-size: 1rem;
+  color: #B5B5B5;
+  letter-spacing: 0.015rem;
+  line-height: 1.3125rem;
+}
+
+.option.latest .message-inner {
+  color: #323232;
+}
+
+.option li {
+  margin: 0.3125rem;
+  padding: 0 1.25rem;
+}
+
+.option.latest.top li:before {
+  content: ".";
+  color: #9855D4;
+  background-image: url("../img/marker_image.png");
+  background-size: 0.3125rem 1.3125rem;
+  position: absolute;
+  z-index: 2;
+  left: 0.4375rem;
+  width: 0.3125rem;
+  height: 1.3125rem;
+  line-height: 1.3125rem;
+}
+
+.option-highlight:hover {
+  color: #9855D4;
+}
+
+.image-message {
+  position: relative;
+  margin: 0.3125rem;
+  padding: 0 1.25rem;
+  width: 20rem;
+  height: 10rem;
+}
+
 #textInput {
   border: none;
   outline: none;

@@ -58,14 +58,14 @@ var assistant;
 
 if (process.env.ASSISTANT_IAM_APIKEY !== undefined && process.env.ASSISTANT_IAM_APIKEY.length > 0) {
   assistant = new AssistantV1({
-    'version': '2018-02-16',
+    'version': '2018-07-10',
     'url': process.env.ASSISTANT_IAM_URL || '<url>',
     'iam_apikey': process.env.ASSISTANT_IAM_APIKEY || '<iam_apikey>',
     'iam_url': 'https://iam.bluemix.net/identity/token'
   });
 } else {
   assistant = new AssistantV1({
-    'version': '2018-02-16',
+    'version': '2018-07-10',
     'username': process.env.ASSISTANT_USERNAME || '<username>',
     'password': process.env.ASSISTANT_PASSWORD || '<password>'
   });

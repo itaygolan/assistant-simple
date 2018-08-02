@@ -8,6 +8,13 @@ let config = {
         filename: 'output.js'
     },
     mode: 'development',
+    node: {
+      fs: "empty",
+      path: "empty",
+    },
+    resolve: {
+      modules: ['node_modules']
+   },
     module: {
         rules: [
           {

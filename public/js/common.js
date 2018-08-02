@@ -2,11 +2,15 @@
 // to hold functions that are used in multiple other modules
 /* eslint no-unused-vars: "off" */
 
+import {ConversationPanel} from './conversation';
+
 export 
 var Common = (function() {
   // Publicly accessible methods defined
   return {
     buildDomElement: buildDomElementFromJson,
+    buildOptionElement: buildOptionElementFromJson,
+    buildImageElement: buildImageElementFromJson,
     fireEvent: fireEvent,
     listForEach: listForEach
   };
@@ -53,6 +57,80 @@ var Common = (function() {
       for (var k = 0; k < domJson.children.length; k++) {
         var currentChild = domJson.children[k];
         element.appendChild(buildDomElementFromJson(currentChild));
+      }
+    }
+    return element;
+  }
+
+  function buildOptionElementFromJson(domJson) {
+    // Create a DOM element with the given tag name
+    var element = document.createElement(domJson.tagName);
+
+    // Fill the "content" of the element
+    if (domJson.text) {
+      element.innerHTML = domJson.text;
+      if (domJson.tagName === 'li') {
+        element.addEventListener('click', ()=> {
+          ConversationPanel.init2(domJson.value);
+        })
+      }
+    } else if (domJson.html) {
+      element.insertAdjacentHTML('beforeend', domJson.html);
+    }
+
+    // Add classes to the element
+    if (domJson.classNames) {
+      for (var i = 0; i < domJson.classNames.length; i++) {
+        element.classList.add(domJson.classNames[i]);
+      }
+    }
+    // Add attributes to the element
+    if (domJson.attributes) {
+      for (var j = 0; j < domJson.attributes.length; j++) {
+        var currentAttribute = domJson.attributes[j];
+        element.setAttribute(currentAttribute.name, currentAttribute.value);
+      }
+    }
+    // Add children elements to the element
+    if (domJson.children) {
+      for (var k = 0; k < domJson.children.length; k++) {
+        var currentChild = domJson.children[k];
+        element.appendChild(buildOptionElementFromJson(currentChild));
+      }
+    }
+    return element;
+  }
+
+  function buildImageElementFromJson(domJson) {
+    // Create a DOM element with the given tag name
+    var element = document.createElement(domJson.tagName);
+
+    // Fill the "content" of the element
+    if (domJson.source) {
+      element.src = domJson.source;
+      element.alt = domJson.title;
+    } else if (domJson.html) {
+      element.insertAdjacentHTML('beforeend', domJson.html);
+    }
+
+    // Add classes to the element
+    if (domJson.classNames) {
+      for (var i = 0; i < domJson.classNames.length; i++) {
+        element.classList.add(domJson.classNames[i]);
+      }
+    }
+    // Add attributes to the element
+    if (domJson.attributes) {
+      for (var j = 0; j < domJson.attributes.length; j++) {
+        var currentAttribute = domJson.attributes[j];
+        element.setAttribute(currentAttribute.name, currentAttribute.value);
+      }
+    }
+    // Add children elements to the element
+    if (domJson.children) {
+      for (var k = 0; k < domJson.children.length; k++) {
+        var currentChild = domJson.children[k];
+        element.appendChild(buildOptionElementFromJson(currentChild));
       }
     }
     return element;
